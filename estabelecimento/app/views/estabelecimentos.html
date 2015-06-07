@@ -1,0 +1,204 @@
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-20">
+                <div class="input-group">
+                    <input type="text" class="form-control" placeholder="Buscar por..." id="searchBox">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="button">Go!</button>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div id="map-canvas"></div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+
+    (function(app, $, $maps){
+
+        'use strict';
+        
+        var BuscaEstabelecimentos = function ($maps, geo) {
+
+            var _map = null;
+            var _marker = null;
+            var _autoComplete = null;
+            var _markers = [];
+
+            var _default = {
+                center: { lat: -34.397, lng: 150.644},
+                zoom: 14,
+                streetViewControl: false,
+                mapTypeId: $maps.MapTypeId.ROADMAP
+            };
+
+            var _init = function () {
+                _setInitialUserLocation();
+            };
+            
+            var _setSearchBoxAutoCompleteConfig = function () {
+                
+                var circle = new $maps.Circle({
+                  center: _marker.getPosition(),
+                  radius: (8/6371)
+                });
+                
+                var options = {
+                  types: ['geocode'],
+                  componentRestrictions: {country: 'br'}
+                };
+                
+                _autoComplete = new $maps.places.Autocomplete(document.getElementById("searchBox"), options);
+                
+//                _autoComplete.setBounds(circle.getBounds());
+                
+                $maps.event.addListener(_autoComplete, 'place_changed', function() {
+                    
+                    var place = _autoComplete.getPlace();
+                    
+                    if (!place.geometry) {
+                      return;   
+                    }
+                    
+                    var loc = place.geometry.location;
+                    
+                    _setMarker(_marker, {lat:loc.lat(), lng:loc.lng()});
+                    _findPlacesArroundCurrentLocation();
+                    
+                });
+                
+            };
+            
+            var _setInitialUserLocation = function() {
+                var _options = $.extend({}, _default);
+
+                geo.getLocation(function(err, position) {
+                    if (position) {
+                        $.extend(_options.center, position); 
+                    }
+                    _map = new $maps.Map(document.getElementById('map-canvas'), _options);
+                    _marker = _setMarker(null, _options.center);
+                    _setSearchBoxAutoCompleteConfig();
+                });
+            };
+
+            var _setMarker = function (marker, position, label) {
+                
+                var m = marker;
+                
+                if (_map) {
+                    if (!m) {
+                        
+                        var l  = label || "Você está aqui";
+                        
+                        m = new $maps.Marker({
+                            map: _map,
+                            position: new $maps.LatLng(
+                                position.lat,
+                                position.lng
+                            ),
+                            title: l
+                        });
+                        
+                        console.log("Criação de marker(" + l + "): " + JSON.stringify(position)); 
+                        
+                    } else {
+                        
+                        m.setPosition(
+                            new $maps.LatLng(
+                                position.lat,
+                                position.lng
+                            )
+                        );
+                        
+                        console.log("Atualização de localização de marker existente(" + m.getTitle() + "): " + JSON.stringify(position)); 
+                        
+                        _map.panTo(m.getPosition());
+                        
+                        if (label){
+                            m.setTitle( label );
+                        }
+                    }
+                }
+                
+                return m;
+            };
+            
+            var _findPlacesArroundCurrentLocation = function () {
+                
+                var _places = [];
+                
+                _places.push({
+                      nome: "Bar e Merc 380",
+                      endereco: "Rua Humaitá, 380 - Vila Santa Terezinha, Várzea Paulista, Brasil",
+                      loc: [-23.2076835, -46.8467531]
+                });
+                
+                 _places.push({
+                      nome: "Delicias em Grelhados",
+                      endereco: "R. Dom Pedro II, 350 - Vila Santa Terezinha, Várzea Paulista, Brasil",
+                      loc: [-23.2086192,-46.8467809]
+                });
+                
+                _places.push({
+                      nome: "Ave e Massas",
+                      endereco: "Av. Fernão Dias Paes Leme, 1637 - Centro - Várzea Paulista - SP",
+                      loc: [-23.21245,-46.844324]
+                });
+                
+                for (var x=0; x < _places.length; x++) {
+                    _markers.push(_setMarker(null, {lat:_places[x].loc[0], lng: _places[x].loc[1]}, "Rede de Benefícios"));
+                }
+                
+            };
+
+            return {
+                init: _init
+            };
+
+        };
+
+        var UserGeoLocation = function () {
+
+            var _getLocation = function (callback) {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position){
+                        _onSucess(position, callback);
+                    }, function(error){
+                        _onError(error,callback);
+                    });
+                }
+            };
+
+            var _onSucess = function (postition, callback) {
+                var _current = { 
+                    lat: postition.coords.latitude, 
+                    lng: postition.coords.longitude
+                };   
+                callback(null, _current);
+            };
+
+            var _onError = function (error, callback) {
+                console.log("Erro ao obter o geo location do usuário: " + JSON.stringify(error));
+                callback(error, null);
+            };
+
+            return {
+                getLocation: _getLocation
+            };
+        };
+
+        app.busca = new BuscaEstabelecimentos($maps, new UserGeoLocation());
+        app.busca.init();
+
+    })(window.app = window.app || {}, jQuery, google.maps);    
+
+
+</script>
+
