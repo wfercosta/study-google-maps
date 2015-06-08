@@ -6,7 +6,7 @@
     padding: 0;
 }
 
-div#map-options div.col-md-3 {
+div#map-options div.col-md-12.base {
    background-color: #f7f7f9;
    border: 1px solid #e1e1e8; 
    margin-left: 20px;
@@ -22,21 +22,31 @@ div#map-options div.row {
 
 div#map-options label.btn {
    width: 100%;
-   font-size: 12px;
+   font-size: 10px;
    text-align: left;
 }
 
 div.resultado-ocorrencia {
     margin-bottom: 5px;
     padding: 2px;
+    font-size: 10px;
     background-color: #8585AD;
     color: #FFFFFF;
 }
 
-
 div.resultado-ocorrencia:nth-child(2n) {
     margin-bottom: 5px;
     padding: 2px;
+    font-size: 10px;
     background-color: #5C5C8A;
     color: #FFFFFF;
+}
+
+.btn {
+    font-size: 10px;
+}
+
+.form-control  {
+    font-size: 10px;
+    height: 28px;
 }
