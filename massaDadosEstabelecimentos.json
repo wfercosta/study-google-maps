@@ -1,0 +1,30 @@
+[  
+   {  
+      "nome":"Bar e Merc 380",
+      "endereco":"Rua Humaitá, 380 - Vila Santa Terezinha, Várzea Paulista, Brasil",
+      "loc":[-46.8467531,
+             -23.2076835
+      ]
+   },
+   {  
+      "nome":"Delicias em Grelhados",
+      "endereco":"R. Dom Pedro II, 350 - Vila Santa Terezinha, Várzea Paulista, Brasil",
+      "loc":[  
+         -46.8467809,
+         -23.2086192
+      ]
+   },
+   {  
+      "nome":"Ave e Massas",
+      "endereco":"Av. Fernão Dias Paes Leme, 1637 - Centro - Várzea Paulista - SP",
+      "loc":[  
+         -46.844324,
+         -23.21245
+      ]
+   }
+]
+
+
+//localhost:3000/estabelecimento-api/estabelecimentos?limit=10&lng=-46.8495068&lat=-23.2068106&distance=21
+
+

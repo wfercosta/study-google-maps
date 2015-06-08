@@ -132,29 +132,25 @@
             
             var _findPlacesArroundCurrentLocation = function () {
                 
-                var _places = [];
+                var url = "http://localhost:3000/estabelecimento-api/estabelecimentos?";
                 
-                _places.push({
-                      nome: "Bar e Merc 380",
-                      endereco: "Rua Humaitá, 380 - Vila Santa Terezinha, Várzea Paulista, Brasil",
-                      loc: [-23.2076835, -46.8467531]
+                $.each(_markers, function(i, item) {
+                    item.map(null);
                 });
                 
-                 _places.push({
-                      nome: "Delicias em Grelhados",
-                      endereco: "R. Dom Pedro II, 350 - Vila Santa Terezinha, Várzea Paulista, Brasil",
-                      loc: [-23.2086192,-46.8467809]
-                });
+                _markers.splice(0, _markers.length);
                 
-                _places.push({
-                      nome: "Ave e Massas",
-                      endereco: "Av. Fernão Dias Paes Leme, 1637 - Centro - Várzea Paulista - SP",
-                      loc: [-23.21245,-46.844324]
+                $.getJSON(url, {
+                    limit:10,
+                    lng:_marker.getPosition().lng(),
+                    lat:_marker.getPosition().lat(),
+                    distance:10
+                }).done(function(data){
+                    $.each(data, function(i, item){
+                        console.log("Find Places(" + i + "): " + JSON.stringify(item)); 
+                        _markers.push(_setMarker(null, {lng:item.loc[0], lat: item.loc[1]}, "Rede de Benefícios"));    
+                    });
                 });
-                
-                for (var x=0; x < _places.length; x++) {
-                    _markers.push(_setMarker(null, {lat:_places[x].loc[0], lng: _places[x].loc[1]}, "Rede de Benefícios"));
-                }
                 
             };
 

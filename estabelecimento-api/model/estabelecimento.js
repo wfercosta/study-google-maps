@@ -18,5 +18,6 @@ exports.listar = function (filtro, callback) {
 
 
 exports.salva = function (estabelecimento, callback) {
+  var Estabelecimento = domain.Estabelecimento();
   Estabelecimento.create(estabelecimento, callback);
 };

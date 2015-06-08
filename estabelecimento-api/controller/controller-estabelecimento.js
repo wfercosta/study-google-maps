@@ -8,7 +8,7 @@ exports.salvar = function (request, response) {
 
   model.salva(estabelecimento, function(err, data) {
     if (err) return response.status(500).json(err);
-    return response.status(200).json(estabelecimentos);
+    return response.status(200).json(data);
   });
 
 };
@@ -19,7 +19,7 @@ exports.listar = function (request, response) {
   var filtro = {
      limit: request.query.limit,
      distance: request.query.distance,
-     loc: [request.query.long, request.query.lat]
+     loc: [request.query.lng, request.query.lat]
   };
 
   model.listar(filtro, function(err, data) {
