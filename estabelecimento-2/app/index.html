@@ -1,0 +1,169 @@
+<!doctype html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css" />
+        <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap-theme.css" />
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+        <link rel="stylesheet" href="styles/main.css">
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDEydPcAfNfBtq7r75BXHPkdbtdPIpmt4o&libraries=places"></script>
+        <script src="lib/jquery/dist/jquery.min.js"></script>
+        <script src="lib/jquery-ui/jquery-ui.min.js"></script>
+        <script src="lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    </head>
+    <body ng-app="estabelecimentoApp">
+        <div class="header">
+            <div class="navbar navbar-default" role="navigation">
+                <div class="container">
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#js-navbar-collapse">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#/">Estudo complementar Google Maps</a>
+                    </div>
+                    <div class="collapse navbar-collapse" id="js-navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="active"><a href="#/">Home</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row" id="map-options">
+                <div class="col-md-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Buscar por..." id="searchBox">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a href="#" class="btn btn-default btn-filtro" role="button">
+                                Filtros
+                                <span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span>
+                            </a>  
+                        </div>
+                    </div>
+                    <div class='pesquisa-resultado hidden'>
+                        Resultados da pesquisa
+                    </div>
+                    <div class='pesquisa-filtro'>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="col-md-6">    
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default active">
+                                            <input type="checkbox" autocomplete="off"  value="1" name="produto">
+                                            <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span> Refeição
+                                        </label>
+                                        <label class="btn btn-default">
+                                            <input type="checkbox" autocomplete="off" value="2" name="produto">
+                                            <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span> Alimentação
+                                        </label>
+                                        <label class="btn btn-default">
+                                            <input type="checkbox" autocomplete="off" value="3" name="produto">
+                                            <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span> Auto
+                                        </label>
+                                    </div>
+                                </div>      
+                                <div class="col-md-6">
+                                    <div class="btn-group" data-toggle="buttons">
+                                        <label class="btn btn-default">
+                                            <input type="checkbox" autocomplete="off" value="4" name="produto">
+                                            <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span> Cultura
+                                        </label>
+                                        <label class="btn btn-default">
+                                            <input type="checkbox" autocomplete="off" value="5" name="produto">
+                                            <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span> Vale-Transporte
+                                        </label> 
+                                        <label class="btn btn-default">
+                                            <input type="checkbox" autocomplete="off" value="6" name="produto">
+                                            <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span> Pré-Pago Prepax
+                                        </label> 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <select class="form-control" id="segmento">
+                                        <option value="0">Selecione o seguimento do estabelecimento</option>
+                                        <option value="1">Restaurante</option>
+                                        <option value="2">Mercado</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p>
+                                    <label for="distance">Raio da busca em KMs:</label>
+                                    <input type="text" id="distance" readonly style="border:0; color:#f6931f; font-weight:bold;">
+                                </p>
+                                <div id="slider-distance"></div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="#" class="btn btn-default btn-aplicar" role="button">Aplicar</a>  
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a href="#" class="btn btn-default btn-limpar" role="button">Limpar</a>  
+                            </div>
+                        </div>
+
+                    </div>
+                </div>                
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="map-canvas" id="map-canvas"></div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="footer">
+            <div class="container">
+                <p></p>
+            </div>
+        </div>
+        <script>
+            $(function() {
+                $( "#slider-distance" ).slider({
+                    range: "max",
+                    min: 1,
+                    max: 10,
+                    value: 2,
+                    slide: function( event, ui ) {
+                        $( "#distance" ).val( ui.value );
+                    }
+                });
+                $( "#distance" ).val( $( "#slider-distance" ).slider( "value" ) );
+            });
+        </script>
+
+        <script src="js/maps.js"></script>
+
+
+    </body>
+</html>
