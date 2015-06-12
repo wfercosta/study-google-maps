@@ -89,6 +89,7 @@
                 });
 
                 _directionsRender.setMap(_map);
+                _directionsRender.setPanel(document.getElementById('pesquisa-route'));
                 _directionsService = new $maps.DirectionsService();
 
             });
