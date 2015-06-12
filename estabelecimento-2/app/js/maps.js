@@ -8,8 +8,11 @@
         var _marker = null;
         var _autoComplete = null;
         var _markers = [];
+        var _directionsRender = null;
+        var _directionsService = null;
+
         var _onResultCallback = function (err, data) {
-            
+
         };
 
         var _default = {
@@ -80,6 +83,14 @@
 
                 _marker = _setMarker(null, _options.center);
                 _setSearchBoxAutoCompleteConfig();
+
+                _directionsRender = new $maps.DirectionsRenderer({
+                    suppressMarkers:true
+                });
+
+                _directionsRender.setMap(_map);
+                _directionsService = new $maps.DirectionsService();
+
             });
         };
 
@@ -100,6 +111,11 @@
                         ),
                         title: l
                     });
+
+
+                    if (label) {
+                        _attachRouteClickEvent(m);    
+                    }
 
                     console.log("Criação de marker(" + l + "): " + JSON.stringify(position)); 
 
@@ -142,28 +158,50 @@
                 distance:10
             }).done(function(data){
                 var rdata = data;
-                
+
                 $.each(data, function(i, item){
                     console.log("Find Places(" + i + "): " + JSON.stringify(item)); 
                     _markers.push(_setMarker(null, {lng:item.loc[0], lat: item.loc[1]}, "Rede de Benefícios"));    
                 });
-                
+
                 if (_onResultCallback) {
                     _onResultCallback(null, rdata);
                 }
             });
 
         };
-        
-        
+
+        var _attachRouteClickEvent = function (m) {
+            $maps.event.addListener(m, 'click', function() {
+
+                var request = {
+                    origin:_marker.getPosition(),
+                    destination:m.getPosition(),
+                    travelMode: google.maps.TravelMode.DRIVING
+                };
+
+                console.log('Route Request: ' + JSON.stringify(request));
+
+                _directionsService.route(request, function(result, status) {
+                    if (status == $maps.DirectionsStatus.OK) {
+                        _directionsRender.setDirections(result);
+                    }
+
+                    console.log('Route Status: ' + JSON.stringify(status));
+                    console.log('Route Result: ' + JSON.stringify(result));
+
+                });
+            });
+        };
+
         var _setAdvancedFilter = function (filter) {
-          console.log('Advanced Filter Update: ' + JSON.stringify(filter));  
+            console.log('Advanced Filter Update: ' + JSON.stringify(filter));  
         };
-        
+
         var _update = function () {
-          console.log('update fired');  
+            console.log('update fired');  
         };
-        
+
         var _callback = function (callback) {
             _onResultCallback = callback || _onResultCallback; 
         };
@@ -218,7 +256,7 @@
             if ($busca) {
                 $busca.callback(_renderData);
             }
-            
+
 
             $('.btn-filtro').click(function(event) {
                 event.preventDefault();
@@ -229,51 +267,51 @@
             $('.btn-aplicar').click(function(event) {
                 event.preventDefault();
                 event.stopPropagation();
-                
+
                 var filtro = {
-                   segmento: 0,
-                   distancia: 0,
-                   produtos: []
+                    segmento: 0,
+                    distancia: 0,
+                    produtos: []
                 };
-                
-                
+
+
                 filtro.distancia = $( "#slider-distance" ).slider( "value" );
                 filtro.segmento = $('#segmento').val();
                 filtro.produtos.splice(0, filtro.produtos.length);
                 $('input[name="produto"]:checked').each(function() {
                     filtro.produtos.push($(this).val());
                 });
-                
+
             });
 
         };
 
         var _renderData = function(err, data) {
-            
+
             var $resultado = $('.pesquisa-resultado');
             $resultado.empty();
-            
+
             if (data) {   
                 if (data.length > 0) {
-                    
+
                     $.each(data, function(i, item) {
-                        
+
                         var ocorrencia = ""
-                            + "<div class='resultado-ocorrencia'>"
-                            + "<span><b>" + item.nome + "</b></span>"
-                            + "<br /><span>" + item.endereco + "</span>"
-                            + "</div>";
-                        
+                        + "<div class='resultado-ocorrencia'>"
+                        + "<span><b>" + item.nome + "</b></span>"
+                        + "<br /><span>" + item.endereco + "</span>"
+                        + "</div>";
+
                         $resultado.append(ocorrencia);
-                        
+
                     });
                 } else {
                     $resultado.append($('span').text('Não há estabelecimentos credenciados nesta área'));
                 }
             }
-            
+
             _close();
-            
+
         };
 
         var _isHidden = function () {
