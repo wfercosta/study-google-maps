@@ -1,0 +1,138 @@
+{  
+   "routes":[  
+      {  
+         "bounds":{  
+            "za":{  
+               "A":-23.207780000000003,
+               "j":-23.207700000000003
+            },
+            "qa":{  
+               "j":-46.84676,
+               "A":-46.84639000000001
+            }
+         },
+         "copyrights":"Dados cartográficos ©2015 Google",
+         "legs":[  
+            {  
+               "distance":{  
+                  "text":"38 m",
+                  "value":38
+               },
+               "duration":{  
+                  "text":"1 min",
+                  "value":5
+               },
+               "end_address":"Rua Humaitá, 337-395 - Vila Santa Terezinha, Jundiaí - SP, 13220-120, Brasil",
+               "end_location":{  
+                  "A":-23.2077,
+                  "F":-46.84675720000001
+               },
+               "start_address":"Rua Humaitá, 338 - Vila Santa Terezinha, Jundiaí - SP, 13220-120, Brasil",
+               "start_location":{  
+                  "A":-23.2077752,
+                  "F":-46.84639199999998
+               },
+               "steps":[  
+                  {  
+                     "distance":{  
+                        "text":"38 m",
+                        "value":38
+                     },
+                     "duration":{  
+                        "text":"1 min",
+                        "value":5
+                     },
+                     "end_location":{  
+                        "A":-23.2077,
+                        "F":-46.84675720000001
+                     },
+                     "polyline":{  
+                        "points":"rwslC|t||GKr@CT"
+                     },
+                     "start_location":{  
+                        "A":-23.2077752,
+                        "F":-46.84639199999998
+                     },
+                     "travel_mode":"DRIVING",
+                     "encoded_lat_lngs":"rwslC|t||GKr@CT",
+                     "path":[  
+                        {  
+                           "A":-23.207780000000003,
+                           "F":-46.84639000000001
+                        },
+                        {  
+                           "A":-23.207720000000002,
+                           "F":-46.846650000000004
+                        },
+                        {  
+                           "A":-23.207700000000003,
+                           "F":-46.84676
+                        }
+                     ],
+                     "lat_lngs":[  
+                        {  
+                           "A":-23.207780000000003,
+                           "F":-46.84639000000001
+                        },
+                        {  
+                           "A":-23.207720000000002,
+                           "F":-46.846650000000004
+                        },
+                        {  
+                           "A":-23.207700000000003,
+                           "F":-46.84676
+                        }
+                     ],
+                     "instructions":"Siga na direção <b>oeste</b> na <b>R. Humaitá</b> em direção à <b>R. Alberto Santos Dumont</b>",
+                     "maneuver":"",
+                     "start_point":{  
+                        "A":-23.2077752,
+                        "F":-46.84639199999998
+                     },
+                     "end_point":{  
+                        "A":-23.2077,
+                        "F":-46.84675720000001
+                     }
+                  }
+               ],
+               "via_waypoint":[  
+
+               ],
+               "via_waypoints":[  
+
+               ]
+            }
+         ],
+         "overview_polyline":"rwslC|t||GOhA",
+         "summary":"R. Humaitá",
+         "warnings":[  
+
+         ],
+         "waypoint_order":[  
+
+         ],
+         "overview_path":[  
+            {  
+               "A":-23.207780000000003,
+               "F":-46.84639000000001
+            },
+            {  
+               "A":-23.207700000000003,
+               "F":-46.84676
+            }
+         ]
+      }
+   ],
+   "status":"OK",
+   "request":{  
+      "origin":{  
+         "A":-23.2077752,
+         "F":-46.84639199999998
+      },
+      "destination":{  
+         "A":-23.2076835,
+         "F":-46.8467531
+      },
+      "travelMode":"DRIVING"
+   }
+}

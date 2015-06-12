@@ -158,15 +158,18 @@
                 lat:_marker.getPosition().lat(),
                 distance:10
             }).done(function(data){
-                var rdata = data;
-
+                var resultsToRender = [];
                 $.each(data, function(i, item){
                     console.log("Find Places(" + i + "): " + JSON.stringify(item)); 
-                    _markers.push(_setMarker(null, {lng:item.loc[0], lat: item.loc[1]}, "Rede de Benefícios"));    
+                    var m = _setMarker(null, {lng:item.loc[0], lat: item.loc[1]}, "Rede de Benefícios")
+                    var distance = $maps.geometry.spherical.computeDistanceBetween(_marker.getPosition(), m.getPosition());
+                    item.distancia = distance;
+                    resultsToRender.push(item);
+                    _markers.push(m);    
                 });
 
                 if (_onResultCallback) {
-                    _onResultCallback(null, rdata);
+                    _onResultCallback(null, resultsToRender);
                 }
             });
 
@@ -287,6 +290,13 @@
 
         };
 
+        var _distanceToText = function (val) {
+            if (val && val > 0) {
+                if (val < 1000) return (val | 0) + " m";
+                else return ((val / 1000) | 0) + " km";
+            }
+        }
+        
         var _renderData = function(err, data) {
 
             var $resultado = $('.pesquisa-resultado');
@@ -299,7 +309,7 @@
 
                         var ocorrencia = ""
                         + "<div class='resultado-ocorrencia'>"
-                        + "<span><b>" + item.nome + "</b></span>"
+                        + "<span><b>" + item.nome + "</b>&nbsp;<i>("+ _distanceToText(item.distancia) +")</i></span>"
                         + "<br /><span>" + item.endereco + "</span>"
                         + "</div>";
 
